@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111216" />
+    <meta name="description" content="Сжатие и распаковка файлов без потерь." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e2028'/%3E%3Cpath d='M8 9h16v5H8zm2 5v10h12V14m-9 4h6' fill='none' stroke='%23b9a8ee' stroke-width='2'/%3E%3C/svg%3E" />
+    <title>archive/lab</title>
+  </head>
+  <body>
+    <header class="topbar"><a class="brand" href="/" aria-label="archive/lab — главная">archive<span>/</span>lab</a></header>
+    <main>
+      <h1 class="sr-only">Сжатие и распаковка файлов</h1>
+      <section class="workbench" aria-label="Архиватор">
+        <div class="tabs" role="tablist" aria-label="Операция">
+          <button id="compress-tab" type="button" role="tab" aria-selected="true" aria-controls="operation-panel" tabindex="0"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3v5h5M15 17v-5h-5M5 8l4-4m6 8-4 4"/></svg>Сжать</button>
+          <button id="decompress-tab" type="button" role="tab" aria-selected="false" aria-controls="operation-panel" tabindex="-1"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M9 4H4v5m7 7h5v-5M4 4l5 5m7 7-5-5"/></svg>Распаковать</button>
+        </div>
+        <div id="operation-panel" role="tabpanel" aria-labelledby="compress-tab">
+          <form id="archive-form">
+            <fieldset id="controls">
+              <legend class="sr-only">Выбор файла и метода</legend>
+              <div id="dropzone" class="dropzone">
+                <div class="upload-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M10 4h9l6 6v18H7V4zm9 0v7h6M16 23V15m-4 4 4-4 4 4"/></svg></div>
+                <h2 id="drop-title">Перетащите файл сюда</h2>
+                <p id="drop-description">или выберите его на устройстве</p>
+                <input id="file-input" type="file" hidden />
+                <div class="file-actions"><button id="choose-file" class="button secondary" type="button">Выбрать файл</button><button id="remove-file" class="text-button" type="button" hidden>Убрать</button></div>
+                <span id="drop-limit" class="drop-limit">До 100 MiB · обработка на локальном сервере</span>
+              </div>
+              <div id="method-section" class="method-section">
+                <label for="method-input">Метод сжатия</label>
+                <div class="select-wrap"><select id="method-input" name="method" aria-describedby="method-note"><option value="auto">Автоматически</option><option value="lz">LZ / Huffman</option><option value="deflate">DEFLATE</option></select><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></div>
+                <p id="method-note" class="method-note">Наименьший вариант из доступных методов. Размер может увеличиться из-за заголовка.</p>
+              </div>
+              <p id="decompress-note" class="method-note unpack-note" hidden>Метод определяется автоматически. Целостность проверяется по SHA-256.</p>
+              <div id="error" class="error" role="alert" hidden></div>
+              <div class="action-row"><span id="request-status" role="status" aria-live="polite"></span><button id="submit" class="button primary" type="submit" disabled>Сжать файл <span aria-hidden="true">→</span></button></div>
+            </fieldset>
+          </form>
+        </div>
+      </section>
+      <section id="result" class="result" aria-labelledby="result-title" hidden>
+        <div class="result-heading"><h2 id="result-title" tabindex="-1">Архив готов</h2><button id="close-result" class="close-button" type="button" aria-label="Закрыть результат">×</button></div>
+        <p id="result-name" class="result-name"></p>
+        <dl id="result-stats" class="result-stats"></dl>
+        <p id="result-detail" class="result-detail"></p>
+        <a id="download" class="button primary" download>Скачать архив <span aria-hidden="true">↓</span></a>
+      </section>
+    </main>
+    <script type="module" src="/client/main.ts"></script>
+  </body>
+</html>
